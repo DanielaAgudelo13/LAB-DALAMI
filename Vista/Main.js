@@ -21,4 +21,5 @@ function handleLogin () {
         console.log(emailLogin.value);
         console.log(passwordLogin.value);
     })
+    
 }
