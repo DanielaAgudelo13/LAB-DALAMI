@@ -1,4 +1,5 @@
 let canvas;
+let control;
 let emailLogin;
 let passwordLogin;
 let registerLogin;
@@ -6,6 +7,7 @@ let registerLogin;
 function setup () {
     canvas = createCanvas (414, 896);
     canvas.parent("micanva");
+    control = new Control ();
     emailLogin = document.querySelector("#emailLogin");
     passwordLogin = document.querySelector("#passwordLogin");
     registerLogin = document.querySelector("#registerLogin");
@@ -14,6 +16,7 @@ function setup () {
 
 function draw () {
     background (255);
+    control.pintar();
 }
 
 function handleLogin () {
@@ -21,5 +24,5 @@ function handleLogin () {
         console.log(emailLogin.value);
         console.log(passwordLogin.value);
     })
-    
+
 }
