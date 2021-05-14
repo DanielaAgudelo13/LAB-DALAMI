@@ -22,7 +22,7 @@ input {
     padding-bottom: 10px;
 }
 
-#buttonLogin {
+#registerLogin {
     background-color: white;
     color: #FF9AAA;
     border: none;
@@ -33,7 +33,7 @@ input {
     top: 823px;
 }
 
-#buttonLogin:hover{
+#registerLogin:hover{
     cursor: pointer;
 }
 
