@@ -4,7 +4,12 @@ class Control {
     }
 
     pintar() {
-        this.logica.pintar (); 
+        this.logica.pintar(); 
+    }
+
+    cambiarPantalla() {
+        let button = document.querySelector("#registerLogin");
+        button.addEventListener("click", this.logica.cambiarPantalla());
     }
 
     subirFormulario() {
