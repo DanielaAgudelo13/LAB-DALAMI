@@ -6,5 +6,9 @@ class Control {
     pintar() {
         this.logica.pintar (); 
     }
+
+    subirFormulario() {
+        this.logica.iniciarSesion();
+    }
 }
 
