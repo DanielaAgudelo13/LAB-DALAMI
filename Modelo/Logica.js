@@ -18,8 +18,9 @@ let usuarios = [];
 class Logica {
     constructor() {
         this.pantallaLogin = loadImage("/image/PantallaInicioSesion.jpg");
-        this.pantallaRegister = loadImage("/image/PantallaRegistro.jpg")
-        this.pantallaInicio = loadImage("/image/PantallaSOpcion.jpg");
+        this.pantallaRegister = loadImage("/image/PantallaRegistro.jpg");
+        this.pantallaMenu = loadImage("/image/PantallaMenu.jpg");
+        this.pantallaOpciones = loadImage("/image/PantallaSOpcion.jpg");
 
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
@@ -39,6 +40,10 @@ class Logica {
                 this.ocultarTodo(loginForm);
                 this.mostrarTodo(registerForm);
                 break;
+            case 2://Menu
+            image(this.pantallaMenu,0,0);
+            this.ocultarTodo(loginForm);
+            this.ocultarTodo(registerForm);
         }
     }
 
@@ -49,7 +54,7 @@ class Logica {
     registrar() {
         registerButton.addEventListener("click", function(){ 
             usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))
-            console.log(usuarios);
+            pantalla = 2;
         })
     }
 
