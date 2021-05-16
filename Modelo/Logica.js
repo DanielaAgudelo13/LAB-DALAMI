@@ -31,6 +31,7 @@ class Logica {
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
         this.ocultarTodo(registerForm);
+        this.iniciarSesion();
         this.registrar();
         this.cargarPlatos();
     }
@@ -58,8 +59,23 @@ class Logica {
     }
 
     iniciarSesion() {
-
+        loginButton.addEventListener("click", function(){
+            let usuario = usuarios.find(element => {
+                return element.email == emailLogin.value;
+            })
+            console.log(usuario);
+            if (usuario) {
+                if (usuario.password == passwordLogin.value) {
+                    pantalla = 2;
+                }else{
+                    alert("Contraseña incorrecta");
+                }
+            }else{
+                alert("El usuario no existe")
+            }
+        })
     }
+    
 
     registrar() {
         registerButton.addEventListener("click", function(){ 
