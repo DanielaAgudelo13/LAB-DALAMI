@@ -13,6 +13,7 @@ let registerForm = document.querySelectorAll(".registerForm");
 
 
 let pantalla = 0;
+let usuarios = []; 
 
 class Logica {
     constructor() {
@@ -20,7 +21,10 @@ class Logica {
         this.pantallaRegister = loadImage("/image/PantallaRegistro.jpg")
         this.pantallaInicio = loadImage("/image/PantallaSOpcion.jpg");
 
+        this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
+        this.ocultarTodo(registerForm);
+        this.registrar();
     }
 
     pintar() {
@@ -28,13 +32,13 @@ class Logica {
             case 0:// Login
                 image(this.pantallaLogin, 0, 0);
                 this.ocultarTodo(registerForm);
+                this.mostrarTodo(loginForm);
                 break;
             case 1:// Registro
                 image(this.pantallaRegister, 0, 0);
                 this.ocultarTodo(loginForm);
                 this.mostrarTodo(registerForm);
                 break;
-
         }
     }
 
@@ -43,7 +47,10 @@ class Logica {
     }
 
     registrar() {
-
+        registerButton.addEventListener("click", function(){ 
+            usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))
+            console.log(usuarios);
+        })
     }
 
     cambiarPantalla(buttonElement, nuevaPagina) {
