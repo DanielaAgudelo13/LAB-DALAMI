@@ -12,8 +12,9 @@ let registerButton = document.querySelector("#registerButton");
 let registerForm = document.querySelectorAll(".registerForm");
 
 
-let pantalla = 0;
-let usuarios = []; 
+let pantalla = 2;
+let usuarios = [];
+let platos = [];
 
 class Logica {
     constructor() {
@@ -26,6 +27,7 @@ class Logica {
         this.cambiarPantalla(registerLogin, 1);
         this.ocultarTodo(registerForm);
         this.registrar();
+        this.cargarPlatos();
     }
 
     pintar() {
@@ -44,6 +46,9 @@ class Logica {
             image(this.pantallaMenu,0,0);
             this.ocultarTodo(loginForm);
             this.ocultarTodo(registerForm);
+            platos.forEach(element => {
+                element.pintar();
+            });
         }
     }
 
@@ -56,6 +61,13 @@ class Logica {
             usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))
             pantalla = 2;
         })
+    }
+
+    cargarPlatos(){
+        platos.push(new Plato(25,350,182.11,112.61,"Delighted\nShake","Strawberry",15000,"1"));
+        platos.push(new Plato(215.98,345,182.11,112.61,"Spongy\nShake","Vanilla",20000,"2"));
+        platos.push(new Plato(25,499,182.11,113.49,"Monster\nShake","Bubble gum",13000,"3"));
+        platos.push(new Plato(215.98,499,182.11,112.61,"Snow\nShake","Chantilly",18000,"4"));
     }
 
     cambiarPantalla(buttonElement, nuevaPagina) {
