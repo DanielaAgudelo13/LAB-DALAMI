@@ -11,9 +11,14 @@ let addressRegister = document.querySelector("#addressRegister");
 let registerButton = document.querySelector("#registerButton");
 let registerForm = document.querySelectorAll(".registerForm");
 
-
-let pantalla = 2;
+let storage = window.localStorage;
+let pantalla = 0;
+let usuariosGuardados = storage.getItem("listaUsuarios");
 let usuarios = [];
+if (usuariosGuardados) {
+    usuarios = JSON.parse(usuariosGuardados);
+}
+console.log(usuarios);
 let platos = [];
 
 class Logica {
@@ -58,7 +63,10 @@ class Logica {
 
     registrar() {
         registerButton.addEventListener("click", function(){ 
-            usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))
+            /*usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))*/
+            let nuevoUsuario = new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value);
+            usuarios.push(nuevoUsuario);
+            storage.setItem("listaUsuarios",JSON.stringify(usuarios));
             pantalla = 2;
         })
     }
@@ -67,7 +75,7 @@ class Logica {
         platos.push(new Plato(25,350,182.11,112.61,"Delighted\nShake","Strawberry",15000,"1"));
         platos.push(new Plato(215.98,345,182.11,112.61,"Spongy\nShake","Vanilla",20000,"2"));
         platos.push(new Plato(25,499,182.11,113.49,"Monster\nShake","Bubble gum",13000,"3"));
-        platos.push(new Plato(215.98,499,182.11,112.61,"Snow\nShake","Chantilly",18000,"4"));
+        platos.push(new Plato(215.98,499,182.11,112.61,"Snow\n Shake","Chantilly",18000,"4"));
     }
 
     cambiarPantalla(buttonElement, nuevaPagina) {
