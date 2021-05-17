@@ -19,6 +19,6 @@ class Plato{
         textSize(13);
         text(this.sabor,this.posX+20,this.posY+80);
         textSize(15);
-        text("$"+this.precio,this.posX+20,this.posY+112);
+        text("$"+this.precio,this.posX+20,this.posY+111);
     }
 }
