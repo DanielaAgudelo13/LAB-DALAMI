@@ -14,11 +14,11 @@ class Plato{
     pintar() {
         image(this.imagen,this.posX,this.posY,this.ancho,this.alto);
         fill(255);
-        textSize(17);
-        text(this.nombre,this.posX+10,this.posY+30);
+        textSize(18);
+        text(this.nombre,this.posX+20,this.posY+40);
         textSize(13);
-        text(this.sabor,this.posX+10,this.posY+80);
-        textSize(16);
-        text("$"+this.precio,this.posX+10,this.posY+100);
+        text(this.sabor,this.posX+20,this.posY+80);
+        textSize(15);
+        text("$"+this.precio,this.posX+20,this.posY+112);
     }
 }

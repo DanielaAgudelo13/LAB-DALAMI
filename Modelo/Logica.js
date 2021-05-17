@@ -12,7 +12,7 @@ let registerButton = document.querySelector("#registerButton");
 let registerForm = document.querySelectorAll(".registerForm");
 
 let storage = window.localStorage;
-let pantalla = 0;
+let pantalla = 2;
 let usuariosGuardados = storage.getItem("listaUsuarios");
 let usuarios = [];
 if (usuariosGuardados) {
@@ -88,10 +88,10 @@ class Logica {
     }
 
     cargarPlatos(){
-        platos.push(new Plato(25,350,182.11,112.61,"Delighted\nShake","Strawberry",15000,"1"));
-        platos.push(new Plato(215.98,345,182.11,112.61,"Spongy\nShake","Vanilla",20000,"2"));
-        platos.push(new Plato(25,499,182.11,113.49,"Monster\nShake","Bubble gum",13000,"3"));
-        platos.push(new Plato(215.98,499,182.11,112.61,"Snow\n Shake","Chantilly",18000,"4"));
+        platos.push(new Plato(105,258.45,210,130,"Delighted\nShake","Strawberry",13000,"1"));
+        platos.push(new Plato(105,405,210,130,"Spongy\nShake","Vainilla",15000,"2")); 
+        platos.push(new Plato(105,557,210.99,130,"Snow\nShake","Chantilly",18000,"3"));
+        platos.push(new Plato(105,709,210,130,"Monster\nShake","Bubble gum",20000,"4"));
     }
 
     cambiarPantalla(buttonElement, nuevaPagina) {
