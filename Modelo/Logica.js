@@ -20,6 +20,7 @@ if (usuariosGuardados) {
 }
 console.log(usuarios);
 let platos = [];
+let adicionales = []; 
 let pedidoTemp;
 
 class Logica {
@@ -32,6 +33,8 @@ class Logica {
         this.op2 = loadImage("/image/PA-Op2.png");
         this.op3 = loadImage("/image/PA-Op3.png");
         this.op4 = loadImage("/image/PA-Op4.png");
+
+
 
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
@@ -139,6 +142,12 @@ class Logica {
         platos.push(new Plato(105,405,210,130,"Spongy\nShake","Vainilla",15000,"2")); 
         platos.push(new Plato(105,557,210.99,130,"Snow\nShake","Chantilly",18000,"3"));
         platos.push(new Plato(105,709,210,130,"Monster\nShake","Bubble gum",20000,"4"));
+    }
+
+    cargarAdicionales(){
+        adicionales.push(new Adicion(1, 17, 268, 112, 114, false));
+        adicionales.push(new Adicion(2, 152, 268, 112, 114, false));
+        adicionales.push(new Adicion(3, 281, 268, 112, 114, false));
     }
 
     cambiarPantalla(buttonElement, nuevaPagina) {
