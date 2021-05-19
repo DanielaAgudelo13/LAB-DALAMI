@@ -1,6 +1,6 @@
-class Plato{
+class Plato {
 
-    constructor(posX, posY,ancho,alto,nombre,sabor,precio,urlImagen){
+    constructor(posX, posY, ancho, alto, nombre, sabor, precio, urlImagen) {
         this.posX = posX;
         this.posY = posY;
         this.ancho = ancho;
@@ -8,17 +8,49 @@ class Plato{
         this.nombre = nombre;
         this.sabor = sabor;
         this.precio = precio;
-        this.imagen = loadImage("/image/Opcion"+urlImagen+".png");
+        this.imagen = loadImage("/image/Opcion" + urlImagen + ".png");
     }
 
     pintar() {
-        image(this.imagen,this.posX,this.posY,this.ancho,this.alto);
+        image(this.imagen, this.posX, this.posY, this.ancho, this.alto);
         fill(255);
         textSize(18);
-        text(this.nombre,this.posX+20,this.posY+40);
+        text(this.nombre, this.posX + 20, this.posY + 40);
         textSize(13);
-        text(this.sabor,this.posX+20,this.posY+80);
+        text(this.sabor, this.posX + 20, this.posY + 80);
         textSize(15);
-        text("$"+this.precio,this.posX+20,this.posY+112);
+        text("$" + this.precio, this.posX + 20, this.posY + 112);
+    }
+
+    getPosX() {
+        return this.posX;
+    }
+
+    setPosX(posX) {
+        this.posX = posX;
+    }
+
+    getPosY() {
+        return this.posY;
+    }
+
+    setPosY(posY) {
+        this.posY = posY;
+    }
+
+    getAncho() {
+        return this.ancho;
+    }
+
+    setAncho(ancho) {
+        this.ancho = ancho;
+    }
+
+    getAlto() {
+        return this.alto;
+    }
+
+    setAlto(alto) {
+        this.alto = alto;
     }
 }

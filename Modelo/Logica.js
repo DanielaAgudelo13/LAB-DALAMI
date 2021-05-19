@@ -55,6 +55,20 @@ class Logica {
             platos.forEach(element => {
                 element.pintar();
             });
+            break;
+            case 3: //Adicionales
+            image(this.pantallaOpciones,0,0);
+            this.ocultarTodo(loginForm);
+            this.ocultarTodo(registerForm);
+        }
+    }
+
+    agregarPlato(){
+        for (let index = 0; index < platos.length; index++) {
+            let plato = platos[index];
+           if (mouseX > plato.getPosX() && mouseX < plato.getPosX() + plato.getAncho() && mouseY > plato.getPosY() && mouseY < plato.getPosY() + plato.getAlto()) {
+               pantalla = 3;
+           }
         }
     }
 
