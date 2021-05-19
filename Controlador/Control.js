@@ -10,5 +10,9 @@ class Control {
     subirFormulario() {
         this.logica.iniciarSesion();
     }
+
+    seleccionarPlato(){
+        this.logica.seleccionarPlato();
+    }
 }
 

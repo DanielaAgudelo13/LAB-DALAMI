@@ -20,6 +20,7 @@ if (usuariosGuardados) {
 }
 console.log(usuarios);
 let platos = [];
+let pedidoTemp;
 
 class Logica {
     constructor() {
@@ -27,6 +28,10 @@ class Logica {
         this.pantallaRegister = loadImage("/image/PantallaRegistro.jpg");
         this.pantallaMenu = loadImage("/image/PantallaMenu.jpg");
         this.pantallaOpciones = loadImage("/image/PantallaSOpcion.jpg");
+        this.op1 = loadImage("/image/PA-Op1.png");
+        this.op2 = loadImage("/image/PA-Op2.png");
+        this.op3 = loadImage("/image/PA-Op3.png");
+        this.op4 = loadImage("/image/PA-Op4.png");
 
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
@@ -60,16 +65,44 @@ class Logica {
             image(this.pantallaOpciones,0,0);
             this.ocultarTodo(loginForm);
             this.ocultarTodo(registerForm);
+            if(pedidoTemp){
+            switch (pedidoTemp.image) {
+                case 1:
+                    image(this.op1,33,450);
+                    break;
+                case 2:
+                    image(this.op2,33,450);
+                    break;
+                case 3:
+                    image(this.op3,33,450);
+                     break;
+                case 4:
+                    image(this.op4,33,450);
+                    break;
+            }
+        }
+        fill(255);
+        textSize(18);
+        text(pedidoTemp.nombre,81,506.37);
+        textSize(16);
+        text(pedidoTemp.sabor,81,550);
+
+        textSize(18);
+        text("Total",81,630);
+        text(pedidoTemp.precio,81,658);
         }
     }
 
-    agregarPlato(){
+    seleccionarPlato(){
+        if(pantalla == 2){
         for (let index = 0; index < platos.length; index++) {
             let plato = platos[index];
            if (mouseX > plato.getPosX() && mouseX < plato.getPosX() + plato.getAncho() && mouseY > plato.getPosY() && mouseY < plato.getPosY() + plato.getAlto()) {
                pantalla = 3;
+               pedidoTemp = {...plato,image:index+1};
            }
         }
+    }
     }
 
     iniciarSesion() {

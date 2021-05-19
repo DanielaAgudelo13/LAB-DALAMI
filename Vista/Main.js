@@ -11,3 +11,7 @@ function draw () {
     //background (255);
     control.pintar();
 }
+
+function mousePressed(){
+    control.seleccionarPlato();
+}
