@@ -25,14 +25,14 @@ let pedidoTemp;
 
 class Logica {
     constructor() {
-        this.pantallaLogin = loadImage("/image/PantallaInicioSesion.jpg");
-        this.pantallaRegister = loadImage("/image/PantallaRegistro.jpg");
-        this.pantallaMenu = loadImage("/image/PantallaMenu.jpg");
-        this.pantallaOpciones = loadImage("/image/PantallaSOpcion.jpg");
-        this.op1 = loadImage("/image/PA-Op1.png");
-        this.op2 = loadImage("/image/PA-Op2.png");
-        this.op3 = loadImage("/image/PA-Op3.png");
-        this.op4 = loadImage("/image/PA-Op4.png");
+        this.pantallaLogin = loadImage("./image/PantallaInicioSesion.jpg");
+        this.pantallaRegister = loadImage("./image/PantallaRegistro.jpg");
+        this.pantallaMenu = loadImage("./image/PantallaMenu.jpg");
+        this.pantallaOpciones = loadImage("./image/PantallaSOpcion.jpg");
+        this.op1 = loadImage("./image/PA-Op1.png");
+        this.op2 = loadImage("./image/PA-Op2.png");
+        this.op3 = loadImage("./image/PA-Op3.png");
+        this.op4 = loadImage("./image/PA-Op4.png");
 
 
 
@@ -42,6 +42,8 @@ class Logica {
         this.iniciarSesion();
         this.registrar();
         this.cargarPlatos();
+        this.cargarAdicionales();
+
     }
 
     pintar() {
@@ -68,6 +70,9 @@ class Logica {
             image(this.pantallaOpciones,0,0);
             this.ocultarTodo(loginForm);
             this.ocultarTodo(registerForm);
+            for(let i = 0; i < adicionales.length; i++){
+                adicionales[i].pintar();
+            }
             if(pedidoTemp){
             switch (pedidoTemp.image) {
                 case 1:
@@ -145,9 +150,9 @@ class Logica {
     }
 
     cargarAdicionales(){
-        adicionales.push(new Adicion(1, 17, 268, 112, 114, false));
-        adicionales.push(new Adicion(2, 152, 268, 112, 114, false));
-        adicionales.push(new Adicion(3, 281, 268, 112, 114, false));
+        adicionales.push(new Adicion(1, 21, 265, 119, 120, false));
+        adicionales.push(new Adicion(2, 149, 265, 119, 120  , false));
+        adicionales.push(new Adicion(3, 278, 265, 119, 120, false));
     }
 
     cambiarPantalla(buttonElement, nuevaPagina) {

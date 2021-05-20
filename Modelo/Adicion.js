@@ -2,7 +2,7 @@ class Adicion{
 
     constructor (urlImagen, posX, posY, ancho, alto, selected){
 
-        this.imagen = loadImage("/image/Adicion" + urlImagen + ".png");
+        this.imagen = loadImage("./image/Adicion" + urlImagen + ".png");
         this.posX = posX;
         this.posY = posY;
         this.ancho = ancho;
@@ -13,7 +13,7 @@ class Adicion{
 
     pintar(){
 
-        if (this.selected){
+        if (this.selected == false){
             image(this.imagen, this.posX, this.posY, this.ancho, this.alto)
         }
 

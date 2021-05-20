@@ -8,7 +8,7 @@ class Plato {
         this.nombre = nombre;
         this.sabor = sabor;
         this.precio = precio;
-        this.imagen = loadImage("/image/Opcion" + urlImagen + ".png");
+        this.imagen = loadImage("./image/Opcion" + urlImagen + ".png");
     }
 
     pintar() {
