@@ -13,5 +13,5 @@ function draw () {
 }
 
 function mousePressed(){
-    control.seleccionarPlato();
+    control.controlarClick();
 }

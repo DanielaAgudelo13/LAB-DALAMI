@@ -11,8 +11,10 @@ class Control {
         this.logica.iniciarSesion();
     }
 
-    seleccionarPlato(){
-        this.logica.seleccionarPlato();
-    }
+   controlarClick(){
+       this.logica.controlarClick();
+   }
+
+   
 }
 

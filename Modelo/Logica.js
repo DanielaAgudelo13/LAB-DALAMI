@@ -20,7 +20,7 @@ if (usuariosGuardados) {
 }
 console.log(usuarios);
 let platos = [];
-let adicionales = []; 
+let adicionales = [];
 let pedidoTemp;
 
 class Logica {
@@ -59,62 +59,66 @@ class Logica {
                 this.mostrarTodo(registerForm);
                 break;
             case 2://Menu
-            image(this.pantallaMenu,0,0);
-            this.ocultarTodo(loginForm);
-            this.ocultarTodo(registerForm);
-            platos.forEach(element => {
-                element.pintar();
-            });
-            break;
+                image(this.pantallaMenu, 0, 0);
+                this.ocultarTodo(loginForm);
+                this.ocultarTodo(registerForm);
+                platos.forEach(element => {
+                    element.pintar();
+                });
+                break;
             case 3: //Adicionales
-            image(this.pantallaOpciones,0,0);
-            this.ocultarTodo(loginForm);
-            this.ocultarTodo(registerForm);
-            for(let i = 0; i < adicionales.length; i++){
-                adicionales[i].pintar();
-            }
-            if(pedidoTemp){
-            switch (pedidoTemp.image) {
-                case 1:
-                    image(this.op1,33,450);
-                    break;
-                case 2:
-                    image(this.op2,33,450);
-                    break;
-                case 3:
-                    image(this.op3,33,450);
-                     break;
-                case 4:
-                    image(this.op4,33,450);
-                    break;
-            }
-        }
-        fill(255);
-        textSize(18);
-        text(pedidoTemp.nombre,81,506.37);
-        textSize(16);
-        text(pedidoTemp.sabor,81,550);
+                image(this.pantallaOpciones, 0, 0);
+                this.ocultarTodo(loginForm);
+                this.ocultarTodo(registerForm);
+                for (let i = 0; i < adicionales.length; i++) {
+                    adicionales[i].pintar();
+                }
+                if (pedidoTemp) {
+                    switch (pedidoTemp.image) {
+                        case 1:
+                            image(this.op1, 33, 450);
+                            break;
+                        case 2:
+                            image(this.op2, 33, 450);
+                            break;
+                        case 3:
+                            image(this.op3, 33, 450);
+                            break;
+                        case 4:
+                            image(this.op4, 33, 450);
+                            break;
+                    }
 
-        textSize(18);
-        text("Total",81,630);
-        text(pedidoTemp.precio,81,658);
+                }
+                fill(255);
+                textSize(18);
+                text(pedidoTemp.nombre, 81, 506.37);
+                textSize(16);
+                text(pedidoTemp.sabor, 81, 550);
+
+                textSize(18);
+                text("Total", 81, 630);
+                text(pedidoTemp.precio, 81, 658);
+
+                break;
         }
+
     }
 
-    seleccionarPlato(){
-        if(pantalla == 2){
+    seleccionarPlato() {
+
         for (let index = 0; index < platos.length; index++) {
             let plato = platos[index];
-           if (mouseX > plato.getPosX() && mouseX < plato.getPosX() + plato.getAncho() && mouseY > plato.getPosY() && mouseY < plato.getPosY() + plato.getAlto()) {
-               pantalla = 3;
-               pedidoTemp = {...plato,image:index+1};
-           }
+            if (mouseX > plato.getPosX() && mouseX < plato.getPosX() + plato.getAncho() && mouseY > plato.getPosY() && mouseY < plato.getPosY() + plato.getAlto()) {
+                pantalla = 3;
+                pedidoTemp = { ...plato, image: index + 1 };
+            }
         }
-    }
+
     }
 
     iniciarSesion() {
-        loginButton.addEventListener("click", function(){
+        loginButton.addEventListener("click", function () {
             let usuario = usuarios.find(element => {
                 return element.email == emailLogin.value;
             })
@@ -122,41 +126,81 @@ class Logica {
             if (usuario) {
                 if (usuario.password == passwordLogin.value) {
                     pantalla = 2;
-                }else{
+                } else {
                     alert("Contraseña incorrecta");
                 }
-            }else{
+            } else {
                 alert("El usuario no existe")
             }
         })
     }
-    
+
 
     registrar() {
-        registerButton.addEventListener("click", function(){ 
+        registerButton.addEventListener("click", function () {
             /*usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))*/
-            let nuevoUsuario = new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value);
+            let nuevoUsuario = new Usuario(emailRegister.value, passwordRegister.value, cellphoneRegister.value, addressRegister.value);
             usuarios.push(nuevoUsuario);
-            storage.setItem("listaUsuarios",JSON.stringify(usuarios));
+            storage.setItem("listaUsuarios", JSON.stringify(usuarios));
             pantalla = 2;
         })
     }
 
-    cargarPlatos(){
-        platos.push(new Plato(105,258.45,210,130,"Delighted\nShake","Strawberry",13000,"1"));
-        platos.push(new Plato(105,405,210,130,"Spongy\nShake","Vainilla",15000,"2")); 
-        platos.push(new Plato(105,557,210.99,130,"Snow\nShake","Chantilly",18000,"3"));
-        platos.push(new Plato(105,709,210,130,"Monster\nShake","Bubble gum",20000,"4"));
+    controlarClick() {
+        switch (pantalla) {
+            case 2:
+
+                this.seleccionarPlato();
+                break;
+
+            case 3:
+
+                this.agregarAdiciones();
+                break;
+        }
     }
 
-    cargarAdicionales(){
+    cargarPlatos() {
+        platos.push(new Plato(105, 258.45, 210, 130, "Delighted\nShake", "Strawberry", 13000, "1"));
+        platos.push(new Plato(105, 405, 210, 130, "Spongy\nShake", "Vainilla", 15000, "2"));
+        platos.push(new Plato(105, 557, 210.99, 130, "Snow\nShake", "Chantilly", 18000, "3"));
+        platos.push(new Plato(105, 709, 210, 130, "Monster\nShake", "Bubble gum", 20000, "4"));
+    }
+
+    cargarAdicionales() {
         adicionales.push(new Adicion(1, 21, 265, 119, 120, false));
-        adicionales.push(new Adicion(2, 149, 265, 119, 120  , false));
+        adicionales.push(new Adicion(2, 149, 265, 119, 120, false));
         adicionales.push(new Adicion(3, 278, 265, 119, 120, false));
     }
 
+    agregarAdiciones() {
+
+        for (let i = 0; i < adicionales.length; i++) {
+            let adicion = adicionales[i];
+            if (mouseX > adicion.getPosX() && mouseX < adicion.getPosX() + adicion.getAncho() && mouseY > adicion.getPosY() && mouseY < adicion.getPosY() + adicion.getAlto()) {
+                switch (adicion.isSelected()) {
+                    case false:
+                        pedidoTemp.precio += 800;
+                        adicion.setSelected(true);
+                        console.log(adicion.isSelected());
+                        break;
+
+                    case true:
+                        pedidoTemp.precio -= 800;
+                        adicion.setSelected(false);
+                        console.log(adicion.isSelected());
+                        break;
+                }
+
+            }
+
+        }
+
+    }
+
+
     cambiarPantalla(buttonElement, nuevaPagina) {
-        buttonElement.addEventListener("click", function() {
+        buttonElement.addEventListener("click", function () {
             pantalla = nuevaPagina;
         })
     }
@@ -169,13 +213,13 @@ class Logica {
         htmlElement.classList.remove("hidden");
     }
 
-    ocultarTodo(list){
+    ocultarTodo(list) {
         list.forEach(element => {
             this.ocultarElemento(element);
         });
     }
 
-    mostrarTodo(list){
+    mostrarTodo(list) {
         list.forEach(element => {
             this.mostrarElemento(element);
         });
