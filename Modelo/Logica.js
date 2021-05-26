@@ -27,6 +27,7 @@ let pedidoTemp;
 let adicionTemp = [];
 
 let pedidos = [];
+let usuarioActual;
 
 class Logica {
     constructor() {
@@ -36,6 +37,11 @@ class Logica {
         this.pantallaOpciones = loadImage("./image/PantallaSOpcion.jpg");
         this.pantallaPago = loadImage("./image/MetodosdePago.jpg");
         this.pantallaPagoRecibido = loadImage("./image/PantallaPagoRecibido.jpg");
+        this.pantallaResumen = loadImage("./image/PantallaResumen.jpg");
+        this.resumen1 = loadImage("./image/Resumen1.png");
+        this.resumen2 = loadImage("./image/Resumen2.png");
+        this.resumen3 = loadImage("./image/Resumen3.png");
+        this.resumen4 = loadImage("./image/Resumen4.png");
         this.op1 = loadImage("./image/PA-Op1.png");
         this.op2 = loadImage("./image/PA-Op2.png");
         this.op3 = loadImage("./image/PA-Op3.png");
@@ -108,10 +114,6 @@ class Logica {
                 textSize(16);
                 text(pedidoTemp.plato.sabor, 81, 550);
 
-                for (let index = 0; index < adicionales; index++) {
-                    const element = adicionales[index];
-                    
-                }
                 text([...adicionTemp].map(element => {return element.nombre}).join(),81, 570);
                 //console.log(adicionTemp.map(element => {return element.nombre}).join());
 
@@ -126,7 +128,26 @@ class Logica {
                     break;
                 case 5:
                     image(this.pantallaPagoRecibido,0,0);
-
+                    if (frameCount %360 == 0) {
+                        pantalla = 6;
+                    }
+                    break;
+                case 6:
+                    image(this.pantallaResumen,0,0);
+                    switch (pedidoTemp.image) {
+                        case 1:
+                            image(this.resumen1, 33, 252);
+                            break;
+                        case 2:
+                            image(this.resumen2, 33, 252);
+                            break;
+                        case 3:
+                            image(this.resumen3, 33, 252);
+                            break;
+                        case 4:
+                            image(this.resumen4, 33, 252);
+                            break;
+                    }
                     break;
         }
 
@@ -153,6 +174,7 @@ class Logica {
             if (usuario) {
                 if (usuario.password == passwordLogin.value) {
                     pantalla = 2;
+                    usuarioActual = usuario;
                 } else {
                     alert("Contraseña incorrecta");
                 }
@@ -170,6 +192,7 @@ class Logica {
             usuarios.push(nuevoUsuario);
             storage.setItem("listaUsuarios", JSON.stringify(usuarios));
             pantalla = 2;
+            usuarioActual = nuevoUsuario;
         })
     }
 
