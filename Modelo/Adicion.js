@@ -1,6 +1,6 @@
 class Adicion{
 
-    constructor (urlImagen, posX, posY, ancho, alto, selected){
+    constructor (urlImagen, posX, posY, ancho, alto, selected, nombre){
 
         this.imagen = loadImage("./image/Adicion" + urlImagen + ".png");
         this.posX = posX;
@@ -8,6 +8,7 @@ class Adicion{
         this.ancho = ancho;
         this.alto = alto;
         this.selected = selected;
+        this.nombre = nombre;
     }
 
 

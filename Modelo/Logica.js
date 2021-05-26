@@ -22,6 +22,7 @@ console.log(usuarios);
 let platos = [];
 let adicionales = [];
 let pedidoTemp;
+let adicionTemp = [];
 
 class Logica {
     constructor() {
@@ -92,9 +93,16 @@ class Logica {
                 }
                 fill(255);
                 textSize(18);
-                text(pedidoTemp.nombre, 81, 506.37);
+                text(pedidoTemp.plato.nombre, 81, 506.37);
                 textSize(16);
-                text(pedidoTemp.sabor, 81, 550);
+                text(pedidoTemp.plato.sabor, 81, 550);
+
+                for (let index = 0; index < adicionales; index++) {
+                    const element = adicionales[index];
+                    
+                }
+                text([...adicionTemp].map(element => {return element.nombre}).join(),81, 570);
+                //console.log(adicionTemp.map(element => {return element.nombre}).join());
 
                 textSize(18);
                 text("Total", 81, 630);
@@ -111,7 +119,7 @@ class Logica {
             let plato = platos[index];
             if (mouseX > plato.getPosX() && mouseX < plato.getPosX() + plato.getAncho() && mouseY > plato.getPosY() && mouseY < plato.getPosY() + plato.getAlto()) {
                 pantalla = 3;
-                pedidoTemp = { ...plato, image: index + 1 };
+                pedidoTemp = {plato:plato,precio:plato.precio, image: index + 1 };
             }
         }
 
@@ -168,9 +176,9 @@ class Logica {
     }
 
     cargarAdicionales() {
-        adicionales.push(new Adicion(1, 21, 265, 119, 120, false));
-        adicionales.push(new Adicion(2, 149, 265, 119, 120, false));
-        adicionales.push(new Adicion(3, 278, 265, 119, 120, false));
+        adicionales.push(new Adicion(1, 21, 265, 119, 120, false, "M&M"));
+        adicionales.push(new Adicion(2, 149, 265, 119, 120, false, "Chispitas"));
+        adicionales.push(new Adicion(3, 278, 265, 119, 120, false, "Gusanitos"));
     }
 
     agregarAdiciones() {
@@ -180,15 +188,15 @@ class Logica {
             if (mouseX > adicion.getPosX() && mouseX < adicion.getPosX() + adicion.getAncho() && mouseY > adicion.getPosY() && mouseY < adicion.getPosY() + adicion.getAlto()) {
                 switch (adicion.isSelected()) {
                     case false:
+                        adicionTemp.push(adicion);
                         pedidoTemp.precio += 800;
                         adicion.setSelected(true);
-                        console.log(adicion.isSelected());
                         break;
 
                     case true:
+                        adicionTemp.splice(adicionTemp.map(element => {return element.nombre}).indexOf(adicion.nombre),1);
                         pedidoTemp.precio -= 800;
                         adicion.setSelected(false);
-                        console.log(adicion.isSelected());
                         break;
                 }
 
