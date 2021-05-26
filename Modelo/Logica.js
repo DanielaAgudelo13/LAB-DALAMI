@@ -164,6 +164,15 @@ class Logica {
             case 3:
 
                 this.agregarAdiciones();
+                if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
+                    pantalla = 2;
+                    pedidoTemp = {};
+                    adicionTemp = [];
+                    adicionales.forEach(function (element) {
+                        element.setSelected(false);
+                    } )
+                }
+                console.log(mouseY);
                 break;
         }
     }
