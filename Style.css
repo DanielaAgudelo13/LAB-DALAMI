@@ -105,3 +105,17 @@ button:hover{
     height: 61px;
     border-radius: 27px;
 }
+
+#buyBoton{
+    background-color: white;
+    left: 73px;
+    top:784px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border: none;
+    font-size: 21px;
+    width: 261px;
+    height: 61px;
+    border-radius: 27px;
+    color: #EE3C9B;
+    
+}

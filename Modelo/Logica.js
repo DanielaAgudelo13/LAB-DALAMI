@@ -11,6 +11,8 @@ let addressRegister = document.querySelector("#addressRegister");
 let registerButton = document.querySelector("#registerButton");
 let registerForm = document.querySelectorAll(".registerForm");
 
+let buyBoton = document.querySelector("#buyBoton");
+
 let storage = window.localStorage;
 let pantalla = 2;
 let usuariosGuardados = storage.getItem("listaUsuarios");
@@ -24,18 +26,20 @@ let adicionales = [];
 let pedidoTemp;
 let adicionTemp = [];
 
+let pedidos = [];
+
 class Logica {
     constructor() {
         this.pantallaLogin = loadImage("./image/PantallaInicioSesion.jpg");
         this.pantallaRegister = loadImage("./image/PantallaRegistro.jpg");
         this.pantallaMenu = loadImage("./image/PantallaMenu.jpg");
         this.pantallaOpciones = loadImage("./image/PantallaSOpcion.jpg");
+        this.pantallaPago = loadImage("./image/MetodosdePago.jpg");
+        this.pantallaPagoRecibido = loadImage("./image/PantallaPagoRecibido.jpg");
         this.op1 = loadImage("./image/PA-Op1.png");
         this.op2 = loadImage("./image/PA-Op2.png");
         this.op3 = loadImage("./image/PA-Op3.png");
         this.op4 = loadImage("./image/PA-Op4.png");
-
-
 
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
@@ -45,6 +49,9 @@ class Logica {
         this.cargarPlatos();
         this.cargarAdicionales();
 
+        this.ocultarElemento(buyBoton);
+        this.cambiarPantalla(buyBoton,4);
+
     }
 
     pintar() {
@@ -53,16 +60,19 @@ class Logica {
                 image(this.pantallaLogin, 0, 0);
                 this.ocultarTodo(registerForm);
                 this.mostrarTodo(loginForm);
+                this.ocultarElemento(buyBoton);
                 break;
             case 1:// Registro
                 image(this.pantallaRegister, 0, 0);
                 this.ocultarTodo(loginForm);
                 this.mostrarTodo(registerForm);
+                this.ocultarElemento(buyBoton);
                 break;
             case 2://Menu
                 image(this.pantallaMenu, 0, 0);
                 this.ocultarTodo(loginForm);
                 this.ocultarTodo(registerForm);
+                this.ocultarElemento(buyBoton);
                 platos.forEach(element => {
                     element.pintar();
                 });
@@ -71,6 +81,7 @@ class Logica {
                 image(this.pantallaOpciones, 0, 0);
                 this.ocultarTodo(loginForm);
                 this.ocultarTodo(registerForm);
+                this.mostrarElemento(buyBoton);
                 for (let i = 0; i < adicionales.length; i++) {
                     adicionales[i].pintar();
                 }
@@ -109,6 +120,14 @@ class Logica {
                 text(pedidoTemp.precio, 81, 658);
 
                 break;
+                case 4:
+                    image(this.pantallaPago,0,0);
+                    this.ocultarElemento(buyBoton);
+                    break;
+                case 5:
+                    image(this.pantallaPagoRecibido,0,0);
+
+                    break;
         }
 
     }
@@ -157,12 +176,10 @@ class Logica {
     controlarClick() {
         switch (pantalla) {
             case 2:
-
                 this.seleccionarPlato();
                 break;
 
             case 3:
-
                 this.agregarAdiciones();
                 if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
                     pantalla = 2;
@@ -174,7 +191,46 @@ class Logica {
                 }
                 console.log(mouseY);
                 break;
+            case 4:
+                if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
+                    pantalla = 3;
+                }
+                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 286 && mouseY < 286 + 62) {
+                    pantalla = 5;
+                    pedidoTemp.fecha = Date.now();
+                    pedidoTemp.tiempo = "15 minutos";
+                    pedidos.push(pedidoTemp);
+
+                    console.log(pedidos);
+                }
+                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 359 && mouseY < 359 + 62) {
+                    pantalla = 5;
+                    pedidoTemp.fecha = Date.now();
+                    pedidoTemp.tiempo = "15 minutos";
+                    pedidos.push(pedidoTemp);
+                }
+                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 432 && mouseY < 432 + 62) {
+                    pantalla = 5;
+                    pedidoTemp.fecha = Date.now();
+                    pedidoTemp.tiempo = "15 minutos";
+                    pedidos.push(pedidoTemp);
+                }
+                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 505 && mouseY < 505 + 62) {
+                    pantalla = 5;
+                    pedidoTemp.fecha = Date.now();
+                    pedidoTemp.tiempo = "15 minutos";
+                    pedidos.push(pedidoTemp);
+                }
+                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 583 && mouseY < 583 + 62) {
+                    pantalla = 5;
+                    pedidoTemp.fecha = Date.now();
+                    pedidoTemp.tiempo = "15 minutos";
+                    pedidos.push(pedidoTemp);
+                }
+                
+                break;
         }
+        console.log(pedidos);
     }
 
     cargarPlatos() {
