@@ -12,6 +12,7 @@ let registerButton = document.querySelector("#registerButton");
 let registerForm = document.querySelectorAll(".registerForm");
 
 let buyBoton = document.querySelector("#buyBoton");
+let profileButton = document.querySelector("#profileButton");
 
 let storage = window.localStorage;
 let pantalla = 2;
@@ -46,6 +47,7 @@ class Logica {
         this.op2 = loadImage("./image/PA-Op2.png");
         this.op3 = loadImage("./image/PA-Op3.png");
         this.op4 = loadImage("./image/PA-Op4.png");
+        this.pantallaMenuDespegable = loadImage("./image/PantallaMenuDesplegable.jpg");
 
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
@@ -54,6 +56,8 @@ class Logica {
         this.registrar();
         this.cargarPlatos();
         this.cargarAdicionales();
+        this.ocultarElemento(profileButton);
+        this.cambiarPantalla(profileButton, 7);
 
         this.ocultarElemento(buyBoton);
         this.cambiarPantalla(buyBoton,4);
@@ -79,6 +83,7 @@ class Logica {
                 this.ocultarTodo(loginForm);
                 this.ocultarTodo(registerForm);
                 this.ocultarElemento(buyBoton);
+                this.mostrarElemento(profileButton);
                 platos.forEach(element => {
                     element.pintar();
                 });
@@ -148,7 +153,24 @@ class Logica {
                             image(this.resumen4, 33, 252);
                             break;
                     }
+                    
+                    text (pedidoTemp.plato.nombre.replace("\n"," "), 57, 336);
+                    text (pedidoTemp.plato.sabor, 57, 355);
+                    textSize(20);
+                    text ("Total", 57, 523);
+                    text ("$"+pedidoTemp.precio, 57, 550);
+                    text ("The restaurant is preparing your shake", 57, 628);
+                    text ("Approximate time", 57, 665);
+                    text (pedidoTemp.tiempo, 57, 685);
+
                     break;
+                    
+                    case 7:
+                        image(this.pantallaMenuDespegable, 0, 0);
+
+                        break;
+
+        
         }
 
     }
@@ -222,38 +244,37 @@ class Logica {
                     pantalla = 5;
                     pedidoTemp.fecha = Date.now();
                     pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push(pedidoTemp);
+                    pedidos.push({...pedidoTemp});
 
-                    console.log(pedidos);
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 359 && mouseY < 359 + 62) {
                     pantalla = 5;
                     pedidoTemp.fecha = Date.now();
                     pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push(pedidoTemp);
+                    pedidos.push({...pedidoTemp});
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 432 && mouseY < 432 + 62) {
                     pantalla = 5;
                     pedidoTemp.fecha = Date.now();
                     pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push(pedidoTemp);
+                    pedidos.push({...pedidoTemp});
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 505 && mouseY < 505 + 62) {
                     pantalla = 5;
                     pedidoTemp.fecha = Date.now();
                     pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push(pedidoTemp);
+                    pedidos.push({...pedidoTemp});
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 583 && mouseY < 583 + 62) {
                     pantalla = 5;
                     pedidoTemp.fecha = Date.now();
                     pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push(pedidoTemp);
+                    pedidos.push({...pedidoTemp});
                 }
                 
                 break;
         }
-        console.log(pedidos);
+    
     }
 
     cargarPlatos() {

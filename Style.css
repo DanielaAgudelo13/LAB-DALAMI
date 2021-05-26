@@ -117,5 +117,13 @@ button:hover{
     height: 61px;
     border-radius: 27px;
     color: #EE3C9B;
-    
+}
+
+#profileButton {
+    background-color: black;
+    left: 269px;
+    top: 60px;
+    width: 101px;
+    height: 101px;
+    opacity: 0;
 }
