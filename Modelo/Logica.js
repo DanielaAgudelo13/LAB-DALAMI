@@ -1,4 +1,3 @@
-
 let emailLogin = document.querySelector("#emailLogin");
 let passwordLogin = document.querySelector("#passwordLogin");
 let loginButton = document.querySelector("#loginButton");
@@ -14,29 +13,40 @@ let registerForm = document.querySelectorAll(".registerForm");
 
 let buyBoton = document.querySelector("#buyBoton");
 let profileButton = document.querySelector("#profileButton");
+let payMethodButton = document.querySelectorAll(".payMethodButton");
 
 let storage = window.localStorage;
 let pantalla = 0;
 let usuariosGuardados = storage.getItem("listaUsuarios");
 let usuarios = [];
 if (usuariosGuardados) {
-    usuarios = JSON.parse(usuariosGuardados);
+    usuarios = [...JSON.parse(usuariosGuardados)];
 }
 
-let pedidosGuardados = storage.getItem("listaPedidos");
+//let pedidosGuardados = storage.getItem("listaPedidos");
 let pedidos = [];
-if (pedidosGuardados){
-    pedidos = JSON.parse(pedidosGuardados);
-}
+/*if (pedidosGuardados) {
+    pedidos = [...JSON.parse(pedidosGuardados)];
+}*/
 console.log(usuariosGuardados);
-console.log(pedidosGuardados);
 
 let platos = [];
 let adicionales = [];
 let pedidoTemp;
 let adicionTemp = [];
 
-
+const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
 
 let usuarioActual;
 
@@ -63,6 +73,7 @@ class Logica {
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
         this.ocultarTodo(registerForm);
+        this.ocultarTodo(payMethodButton);
         this.iniciarSesion();
         this.registrar();
         this.cargarPlatos();
@@ -72,6 +83,10 @@ class Logica {
 
         this.ocultarElemento(buyBoton);
         this.cambiarPantalla(buyBoton, 4);
+        payMethodButton.forEach(element => {
+            this.cambiarPantalla(element, 5);
+        });
+        this.agregarPedido();
 
     }
 
@@ -136,14 +151,16 @@ class Logica {
                 textSize(18);
                 text("Total", 81, 630);
                 text(pedidoTemp.precio, 81, 658);
-
+                this.ocultarTodo(payMethodButton);
                 break;
             case 4:
                 image(this.pantallaPago, 0, 0);
+                this.mostrarTodo(payMethodButton);
                 this.ocultarElemento(buyBoton);
                 break;
             case 5:
                 image(this.pantallaPagoRecibido, 0, 0);
+                this.ocultarTodo(payMethodButton);
                 if (frameCount % 360 == 0) {
                     pantalla = 6;
                 }
@@ -208,11 +225,13 @@ class Logica {
             let usuario = usuarios.find(element => {
                 return element.email == emailLogin.value;
             })
-            
+
             if (usuario) {
                 if (usuario.password == passwordLogin.value) {
                     pantalla = 2;
                     usuarioActual = usuario;
+                    pedidos = usuarioActual.pedidos;
+                    console.log(pedidos)
                 } else {
                     alert("Contraseña incorrecta");
                 }
@@ -226,12 +245,13 @@ class Logica {
     registrar() {
         registerButton.addEventListener("click", function () {
             /*usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))*/
-            let nuevoUsuario = new Usuario(emailRegister.value, passwordRegister.value, cellphoneRegister.value, addressRegister.value);
+            let nuevoUsuario = new Usuario(emailRegister.value, passwordRegister.value, cellphoneRegister.value, addressRegister.value, []);
             usuarios.push(nuevoUsuario);
             storage.setItem("listaUsuarios", JSON.stringify(usuarios));
             pantalla = 2;
             usuarioActual = nuevoUsuario;
-            
+            pedidos = usuarioActual.pedidos;
+            console.log(pedidos)
         })
     }
 
@@ -251,11 +271,11 @@ class Logica {
                         element.setSelected(false);
                     })
                 }
-                
+
                 break;
 
             case 4:
-                if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
+                /*if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
                     pantalla = 3;
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 286 && mouseY < 286 + 62) {
@@ -277,7 +297,7 @@ class Logica {
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 583 && mouseY < 583 + 62) {
                     this.agregarPedido(pedidoTemp);
                     pantalla = 5;
-                }
+                }*/
 
                 break;
 
@@ -296,25 +316,9 @@ class Logica {
 
                 break;
 
-
-
         }
 
     }
-
-
-    agregarPedido(pedido) {
-        let nuevoPedido = new Pedido(usuarioActual.cellPhone, pedido.plato, adicionTemp, Date.now(), pedidoTemp.precio, "15 min");
-        let pedidosCopia = [...pedidos];        
-        //pedido.id = usuarioActual.cellPhone;
-        //pedido.fecha = Date.now();
-        pedido.tiempo = "15 min";
-        pedidos.push(nuevoPedido);
-        
-        //storage.setItem("listaPedidos", JSON.stringify(pedidosCopia));
-        console.log(nuevoPedido);
-    }
-
 
     cargarPlatos() {
         platos.push(new Plato(105, 258.45, 210, 130, "Delighted\nShake", "Strawberry", 13000, "1"));
@@ -354,6 +358,21 @@ class Logica {
 
     }
 
+    agregarPedido() {
+        payMethodButton.forEach(elem => {
+            elem.addEventListener("click", () => {
+                let nuevoPedido = new Pedido(usuarioActual.cellPhone, pedidoTemp.plato, adicionTemp, Date.now(), pedidoTemp.precio, "15 min");
+                pedidoTemp.tiempo = "15 min";
+                pedidos.push(nuevoPedido);
+                usuarioActual.pedidos = pedidos;
+                let usuarioIndex = usuarios.findIndex(elem  => {
+                    return elem.email == usuarioActual.email;
+                })
+                usuarios[usuarioIndex] = usuarioActual;
+                storage.setItem("listaUsuarios", JSON.stringify(usuarios, getCircularReplacer()));
+            })
+        })
+    }
 
     cambiarPantalla(buttonElement, nuevaPagina) {
         buttonElement.addEventListener("click", function () {

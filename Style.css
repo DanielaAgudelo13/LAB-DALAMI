@@ -127,3 +127,32 @@ button:hover{
     height: 101px;
     opacity: 0;
 }
+
+.payMethodButton {
+    background-color: white;
+    opacity: 0;
+    width: 341px;
+    height: 62px;
+}
+
+#payMethodButton1 {
+    left: 31px;
+    top: 286px;
+}
+
+#payMethodButton2 {
+    left: 31px;
+    top: 359px;
+}
+#payMethodButton3 {
+    left: 31px;
+    top: 432px;
+}
+#payMethodButton4 {
+    left: 31px;
+    top: 505px;
+}
+#payMethodButton5 {
+    left: 31px;
+    top: 583px;
+}
