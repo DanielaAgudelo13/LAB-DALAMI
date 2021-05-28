@@ -1,3 +1,4 @@
+
 let emailLogin = document.querySelector("#emailLogin");
 let passwordLogin = document.querySelector("#passwordLogin");
 let loginButton = document.querySelector("#loginButton");
@@ -15,19 +16,28 @@ let buyBoton = document.querySelector("#buyBoton");
 let profileButton = document.querySelector("#profileButton");
 
 let storage = window.localStorage;
-let pantalla = 2;
+let pantalla = 0;
 let usuariosGuardados = storage.getItem("listaUsuarios");
 let usuarios = [];
 if (usuariosGuardados) {
     usuarios = JSON.parse(usuariosGuardados);
 }
-console.log(usuarios);
+
+let pedidosGuardados = storage.getItem("listaPedidos");
+let pedidos = [];
+if (pedidosGuardados){
+    pedidos = JSON.parse(pedidosGuardados);
+}
+console.log(usuariosGuardados);
+console.log(pedidosGuardados);
+
 let platos = [];
 let adicionales = [];
 let pedidoTemp;
 let adicionTemp = [];
 
-let pedidos = [];
+
+
 let usuarioActual;
 
 class Logica {
@@ -198,7 +208,7 @@ class Logica {
             let usuario = usuarios.find(element => {
                 return element.email == emailLogin.value;
             })
-            console.log(usuario);
+            
             if (usuario) {
                 if (usuario.password == passwordLogin.value) {
                     pantalla = 2;
@@ -216,11 +226,12 @@ class Logica {
     registrar() {
         registerButton.addEventListener("click", function () {
             /*usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))*/
-            let nuevoUsuario = new Usuario(emailRegister.value, passwordRegister.value, cellphoneRegister.value, addressRegister.value, []);
+            let nuevoUsuario = new Usuario(emailRegister.value, passwordRegister.value, cellphoneRegister.value, addressRegister.value);
             usuarios.push(nuevoUsuario);
             storage.setItem("listaUsuarios", JSON.stringify(usuarios));
             pantalla = 2;
             usuarioActual = nuevoUsuario;
+            
         })
     }
 
@@ -240,35 +251,36 @@ class Logica {
                         element.setSelected(false);
                     })
                 }
-                console.log(mouseY);
+                
                 break;
+
             case 4:
                 if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
                     pantalla = 3;
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 286 && mouseY < 286 + 62) {
-                    pantalla = 5;
                     this.agregarPedido(pedidoTemp);
-
+                    pantalla = 5;
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 359 && mouseY < 359 + 62) {
-                    pantalla = 5;
                     this.agregarPedido(pedidoTemp);
+                    pantalla = 5;
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 432 && mouseY < 432 + 62) {
-                    pantalla = 5;
                     this.agregarPedido(pedidoTemp);
+                    pantalla = 5;
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 505 && mouseY < 505 + 62) {
-                    pantalla = 5;
                     this.agregarPedido(pedidoTemp);
+                    pantalla = 5;
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 583 && mouseY < 583 + 62) {
-                    pantalla = 5;
                     this.agregarPedido(pedidoTemp);
+                    pantalla = 5;
                 }
 
                 break;
+
             case 7:
                 if (mouseX > 46 && mouseX < 297 && mouseY > 247 && mouseY < 289) {
                     pantalla = 2;
@@ -292,15 +304,15 @@ class Logica {
 
 
     agregarPedido(pedido) {
-        pedido.fecha = Date.now();
-        pedido.tiempo = "15 minutos";
-        pedidos.push({ ...pedido });
-        usuarioActual.pedidos = pedidos;
-        let usuarioIndex = usuarios.findIndex(function (element){
-            return element.email == usuarioActual.email;
-        });
-
-        console.log(usuarios[usuarioIndex]);
+        let nuevoPedido = new Pedido(usuarioActual.cellPhone, pedido.plato, adicionTemp, Date.now(), pedidoTemp.precio, "15 min");
+        let pedidosCopia = [...pedidos];        
+        //pedido.id = usuarioActual.cellPhone;
+        //pedido.fecha = Date.now();
+        pedido.tiempo = "15 min";
+        pedidos.push(nuevoPedido);
+        
+        //storage.setItem("listaPedidos", JSON.stringify(pedidosCopia));
+        console.log(nuevoPedido);
     }
 
 
