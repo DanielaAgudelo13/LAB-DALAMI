@@ -48,6 +48,7 @@ class Logica {
         this.op3 = loadImage("./image/PA-Op3.png");
         this.op4 = loadImage("./image/PA-Op4.png");
         this.pantallaMenuDespegable = loadImage("./image/PantallaMenuDesplegable.jpg");
+        this.historialdePedidos = loadImage("./image/HistorialdePedidos.jpg");
 
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
@@ -60,7 +61,7 @@ class Logica {
         this.cambiarPantalla(profileButton, 7);
 
         this.ocultarElemento(buyBoton);
-        this.cambiarPantalla(buyBoton,4);
+        this.cambiarPantalla(buyBoton, 4);
 
     }
 
@@ -119,7 +120,7 @@ class Logica {
                 textSize(16);
                 text(pedidoTemp.plato.sabor, 81, 550);
 
-                text([...adicionTemp].map(element => {return element.nombre}).join(),81, 570);
+                text([...adicionTemp].map(element => { return element.nombre }).join(), 81, 570);
                 //console.log(adicionTemp.map(element => {return element.nombre}).join());
 
                 textSize(18);
@@ -127,50 +128,55 @@ class Logica {
                 text(pedidoTemp.precio, 81, 658);
 
                 break;
-                case 4:
-                    image(this.pantallaPago,0,0);
-                    this.ocultarElemento(buyBoton);
-                    break;
-                case 5:
-                    image(this.pantallaPagoRecibido,0,0);
-                    if (frameCount %360 == 0) {
-                        pantalla = 6;
-                    }
-                    break;
-                case 6:
-                    image(this.pantallaResumen,0,0);
-                    switch (pedidoTemp.image) {
-                        case 1:
-                            image(this.resumen1, 33, 252);
-                            break;
-                        case 2:
-                            image(this.resumen2, 33, 252);
-                            break;
-                        case 3:
-                            image(this.resumen3, 33, 252);
-                            break;
-                        case 4:
-                            image(this.resumen4, 33, 252);
-                            break;
-                    }
-                    
-                    text (pedidoTemp.plato.nombre.replace("\n"," "), 57, 336);
-                    text (pedidoTemp.plato.sabor, 57, 355);
-                    textSize(20);
-                    text ("Total", 57, 523);
-                    text ("$"+pedidoTemp.precio, 57, 550);
-                    text ("The restaurant is preparing your shake", 57, 628);
-                    text ("Approximate time", 57, 665);
-                    text (pedidoTemp.tiempo, 57, 685);
-
-                    break;
-                    
-                    case 7:
-                        image(this.pantallaMenuDespegable, 0, 0);
-
+            case 4:
+                image(this.pantallaPago, 0, 0);
+                this.ocultarElemento(buyBoton);
+                break;
+            case 5:
+                image(this.pantallaPagoRecibido, 0, 0);
+                if (frameCount % 360 == 0) {
+                    pantalla = 6;
+                }
+                break;
+            case 6:
+                image(this.pantallaResumen, 0, 0);
+                switch (pedidoTemp.image) {
+                    case 1:
+                        image(this.resumen1, 33, 252);
                         break;
+                    case 2:
+                        image(this.resumen2, 33, 252);
+                        break;
+                    case 3:
+                        image(this.resumen3, 33, 252);
+                        break;
+                    case 4:
+                        image(this.resumen4, 33, 252);
+                        break;
+                }
 
-        
+                text(pedidoTemp.plato.nombre.replace("\n", " "), 57, 336);
+                text(pedidoTemp.plato.sabor, 57, 355);
+                textSize(20);
+                text("Total", 57, 523);
+                text("$" + pedidoTemp.precio, 57, 550);
+                text("The restaurant is preparing your shake", 57, 628);
+                text("Approximate time", 57, 665);
+                text(pedidoTemp.tiempo, 57, 685);
+
+                break;
+
+            case 7:
+                image(this.pantallaMenuDespegable, 0, 0);
+
+                break;
+
+            case 8:
+                image(this.historialdePedidos, 0, 0);
+
+                break;
+
+
         }
 
     }
@@ -181,7 +187,7 @@ class Logica {
             let plato = platos[index];
             if (mouseX > plato.getPosX() && mouseX < plato.getPosX() + plato.getAncho() && mouseY > plato.getPosY() && mouseY < plato.getPosY() + plato.getAlto()) {
                 pantalla = 3;
-                pedidoTemp = {plato:plato,precio:plato.precio, image: index + 1 };
+                pedidoTemp = { plato: plato, precio: plato.precio, image: index + 1 };
             }
         }
 
@@ -210,7 +216,7 @@ class Logica {
     registrar() {
         registerButton.addEventListener("click", function () {
             /*usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))*/
-            let nuevoUsuario = new Usuario(emailRegister.value, passwordRegister.value, cellphoneRegister.value, addressRegister.value);
+            let nuevoUsuario = new Usuario(emailRegister.value, passwordRegister.value, cellphoneRegister.value, addressRegister.value, []);
             usuarios.push(nuevoUsuario);
             storage.setItem("listaUsuarios", JSON.stringify(usuarios));
             pantalla = 2;
@@ -232,7 +238,7 @@ class Logica {
                     adicionTemp = [];
                     adicionales.forEach(function (element) {
                         element.setSelected(false);
-                    } )
+                    })
                 }
                 console.log(mouseY);
                 break;
@@ -242,40 +248,61 @@ class Logica {
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 286 && mouseY < 286 + 62) {
                     pantalla = 5;
-                    pedidoTemp.fecha = Date.now();
-                    pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push({...pedidoTemp});
+                    this.agregarPedido(pedidoTemp);
 
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 359 && mouseY < 359 + 62) {
                     pantalla = 5;
-                    pedidoTemp.fecha = Date.now();
-                    pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push({...pedidoTemp});
+                    this.agregarPedido(pedidoTemp);
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 432 && mouseY < 432 + 62) {
                     pantalla = 5;
-                    pedidoTemp.fecha = Date.now();
-                    pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push({...pedidoTemp});
+                    this.agregarPedido(pedidoTemp);
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 505 && mouseY < 505 + 62) {
                     pantalla = 5;
-                    pedidoTemp.fecha = Date.now();
-                    pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push({...pedidoTemp});
+                    this.agregarPedido(pedidoTemp);
                 }
                 if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 583 && mouseY < 583 + 62) {
                     pantalla = 5;
-                    pedidoTemp.fecha = Date.now();
-                    pedidoTemp.tiempo = "15 minutos";
-                    pedidos.push({...pedidoTemp});
+                    this.agregarPedido(pedidoTemp);
                 }
-                
+
                 break;
+            case 7:
+                if (mouseX > 46 && mouseX < 297 && mouseY > 247 && mouseY < 289) {
+                    pantalla = 2;
+                }
+
+                if (mouseX > 46 && mouseX < 297 && mouseY > 297 && mouseY < 339) {
+                    pantalla = 8;
+                }
+
+                if (mouseX > 46 && mouseX < 297 && mouseY > 348 && mouseY < 390) {
+                    pantalla = 0;
+                }
+
+                break;
+
+
+
         }
-    
+
     }
+
+
+    agregarPedido(pedido) {
+        pedido.fecha = Date.now();
+        pedido.tiempo = "15 minutos";
+        pedidos.push({ ...pedido });
+        usuarioActual.pedidos = pedidos;
+        let usuarioIndex = usuarios.findIndex(function (element){
+            return element.email == usuarioActual.email;
+        });
+
+        console.log(usuarios[usuarioIndex]);
+    }
+
 
     cargarPlatos() {
         platos.push(new Plato(105, 258.45, 210, 130, "Delighted\nShake", "Strawberry", 13000, "1"));
@@ -303,7 +330,7 @@ class Logica {
                         break;
 
                     case true:
-                        adicionTemp.splice(adicionTemp.map(element => {return element.nombre}).indexOf(adicion.nombre),1);
+                        adicionTemp.splice(adicionTemp.map(element => { return element.nombre }).indexOf(adicion.nombre), 1);
                         pedidoTemp.precio -= 800;
                         adicion.setSelected(false);
                         break;
