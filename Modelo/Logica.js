@@ -148,17 +148,17 @@ class Logica {
 
                 }
                 fill(255);
-                textSize(18);
-                text(pedidoTemp.plato.nombre, 81, 506.37);
+                textSize(24);
+                text(pedidoTemp.plato.nombre, 67, 520);
                 textSize(16);
-                text(pedidoTemp.plato.sabor, 81, 550);
+                text(pedidoTemp.plato.sabor, 67, 570);
 
-                text([...adicionTemp].map(element => { return element.nombre }).join(), 81, 570);
+                text([...adicionTemp].map(element => { return element.nombre }).join(), 67, 593);
                 //console.log(adicionTemp.map(element => {return element.nombre}).join());
 
-                textSize(18);
-                text("Total", 81, 630);
-                text(pedidoTemp.precio, 81, 658);
+                textSize(19);
+                text("Total", 67, 640);
+                text("$" + pedidoTemp.precio, 67, 670);
                 this.ocultarTodo(payMethodButton);
                 break;
             case 4:
@@ -169,7 +169,7 @@ class Logica {
             case 5:
                 image(this.pantallaPagoRecibido, 0, 0);
                 this.ocultarTodo(payMethodButton);
-                if (frameCount % 360 == 0) {
+                if (frameCount % 120 == 0) {
                     pantalla = 6;
                 }
                 break;
@@ -189,21 +189,22 @@ class Logica {
                         image(this.resumen4, 33, 252);
                         break;
                 }
-
-                text(pedidoTemp.plato.nombre.replace("\n", " "), 57, 336);
-                text(pedidoTemp.plato.sabor, 57, 355);
+                textSize(30);
+                text(pedidoTemp.plato.nombre, 80, 336);
                 textSize(20);
-                text("Total", 57, 523);
-                text("$" + pedidoTemp.precio, 57, 550);
-                text("The restaurant is preparing your shake", 57, 628);
-                text("Approximate time", 57, 665);
-                text(pedidoTemp.tiempo, 57, 685);
+                text(pedidoTemp.plato.sabor, 80, 395);
+                textSize(20);
+                text("Total", 80, 560);
+                text("$" + pedidoTemp.precio, 80, 585);
+                textSize(20);
+                text(pedidoTemp.tiempo, 80, 760);
 
                 break;
 
             case 7:
                 image(this.pantallaMenuDespegable, 0, 0);
                 profileButton.style.top = "60px";
+                this.ocultarElemento(buyBoton);
 
                 break;
 
@@ -277,9 +278,9 @@ class Logica {
                 image(this.pedidoAzul, 37, 329 + this.scrollY + (180 * i));
             }
             textSize(20);
-            text(elemento.plato.nombre.replace("\n", " "), 63, 374 + this.scrollY + (180 * i));
-            text("Date: " + this.fechaFuncional(elemento.fecha), 63, 401 + this.scrollY + (180 * i));
-            text("Total: $" + elemento.valor, 63, 428 + this.scrollY + (180 * i));
+            text(elemento.plato.nombre.replace("\n", " "), 63, 385 + this.scrollY + (180 * i));
+            text("Date: " + this.fechaFuncional(elemento.fecha), 63, 420 + this.scrollY + (180 * i));
+            text("Total: $" + elemento.valor, 63, 450 + this.scrollY + (180 * i));
             
         }
 
@@ -312,7 +313,6 @@ class Logica {
             case 2:
                 this.seleccionarPlato();
                 break;
-
             case 3:
                 this.agregarAdiciones();
                 if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
@@ -323,45 +323,33 @@ class Logica {
                         element.setSelected(false);
                     })
                 }
-
                 break;
-
-
             case 7:
                 if (mouseX > 46 && mouseX < 297 && mouseY > 247 && mouseY < 289) {
                     profileButton.style.top = "60px";
                     this.scrollY = 0;
                     pantalla = 2;
-                    
                 }
-
                 if (mouseX > 46 && mouseX < 297 && mouseY > 297 && mouseY < 339) {
                     profileButton.style.top = "60px";
                     this.scrollY = 0;
                     pantalla = 8;
                 }
-
                 if (mouseX > 46 && mouseX < 297 && mouseY > 348 && mouseY < 390) {
                     profileButton.style.top = "60px";
                     this.scrollY = 0;
                     this.logout();
                 }
-
                 break;
-
             case 8:
                 if (mouseX > 37 && mouseX < 200 && mouseY > 255 && mouseY < 297) {
                     pedidos.sort(this.compararFecha.compare);
                 }
-
                 if (mouseX > 215 && mouseX < 378 && mouseY > 255 && mouseY < 297) {
                     pedidos.sort(this.compararPrecio.compare);
                 }
-
                 break;
-
         }
-
     }
 
     fechaFuncional(timestamp) {
