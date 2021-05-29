@@ -23,13 +23,7 @@ if (usuariosGuardados) {
     usuarios = [...JSON.parse(usuariosGuardados)];
 }
 
-//let pedidosGuardados = storage.getItem("listaPedidos");
 let pedidos = [];
-/*if (pedidosGuardados) {
-    pedidos = [...JSON.parse(pedidosGuardados)];
-}*/
-
-
 let platos = [];
 let adicionales = [];
 let pedidoTemp;
@@ -97,7 +91,7 @@ class Logica {
 
     }
 
-    
+
     pintar() {
         switch (pantalla) {
             case 0:// Login
@@ -149,31 +143,30 @@ class Logica {
                 }
                 fill(255);
                 textSize(24);
-                text(pedidoTemp.plato.nombre, 67, 520);
+                text(pedidoTemp.plato.nombre.replace("\n", " "), 67, 520);
                 textSize(16);
                 text(pedidoTemp.plato.sabor, 67, 570);
 
                 text([...adicionTemp].map(element => { return element.nombre }).join(), 67, 593);
-                //console.log(adicionTemp.map(element => {return element.nombre}).join());
 
                 textSize(19);
                 text("Total", 67, 640);
                 text("$" + pedidoTemp.precio, 67, 670);
                 this.ocultarTodo(payMethodButton);
                 break;
-            case 4:
+            case 4: //Metodo de pago
                 image(this.pantallaPago, 0, 0);
                 this.mostrarTodo(payMethodButton);
                 this.ocultarElemento(buyBoton);
                 break;
-            case 5:
+            case 5: //Pago recibido
                 image(this.pantallaPagoRecibido, 0, 0);
                 this.ocultarTodo(payMethodButton);
                 if (frameCount % 120 == 0) {
                     pantalla = 6;
                 }
                 break;
-            case 6:
+            case 6: //Resumen del pedido
                 image(this.pantallaResumen, 0, 0);
                 switch (pedidoTemp.image) {
                     case 1:
@@ -190,7 +183,7 @@ class Logica {
                         break;
                 }
                 textSize(30);
-                text(pedidoTemp.plato.nombre, 80, 336);
+                text(pedidoTemp.plato.nombre.replace(), 80, 336);
                 textSize(20);
                 text(pedidoTemp.plato.sabor, 80, 395);
                 textSize(20);
@@ -201,17 +194,18 @@ class Logica {
 
                 break;
 
-            case 7:
+            case 7: //Menu desplegable
                 image(this.pantallaMenuDespegable, 0, 0);
                 profileButton.style.top = "60px";
                 this.ocultarElemento(buyBoton);
-
+                this.ocultarTodo(payMethodButton);
                 break;
 
-            case 8:
+            case 8: // Historial de pedidos
+                background(255); 
                 image(this.historialdePedidos, 0, this.scrollY);
                 this.pintarPedidos();
-                
+
 
                 break;
 
@@ -243,7 +237,6 @@ class Logica {
                     pantalla = 2;
                     usuarioActual = usuario;
                     pedidos = usuarioActual.pedidos;
-                    
                 } else {
                     alert("Contraseña incorrecta");
                 }
@@ -256,14 +249,13 @@ class Logica {
 
     registrar() {
         registerButton.addEventListener("click", function () {
-            /*usuarios.push(new Usuario(emailRegister.value,passwordRegister.value,cellphoneRegister.value,addressRegister.value))*/
             let nuevoUsuario = new Usuario(emailRegister.value, passwordRegister.value, cellphoneRegister.value, addressRegister.value, []);
             usuarios.push(nuevoUsuario);
             storage.setItem("listaUsuarios", JSON.stringify(usuarios));
             pantalla = 2;
             usuarioActual = nuevoUsuario;
             pedidos = usuarioActual.pedidos;
-            
+
         })
 
     }
@@ -281,32 +273,28 @@ class Logica {
             text(elemento.plato.nombre.replace("\n", " "), 63, 385 + this.scrollY + (180 * i));
             text("Date: " + this.fechaFuncional(elemento.fecha), 63, 420 + this.scrollY + (180 * i));
             text("Total: $" + elemento.valor, 63, 450 + this.scrollY + (180 * i));
-            
+
         }
 
     }
 
-    controlarTeclas(){
-        switch (pantalla){
+    controlarTeclas() {
+        switch (pantalla) {
             case 8:
-                if (keyCode == DOWN_ARROW){
-                    this.scrollY -= 20;
-                    console.log(this.scrollY);
+                if (keyCode == DOWN_ARROW) {
+                    this.scrollY -= 30;
                     let newButtonPosition = 60 + this.scrollY;
                     profileButton.style.top = newButtonPosition.toString() + "px";
                 }
-                if (keyCode == UP_ARROW && this.scrollY < 0){
-                    this.scrollY += 20;
-                    console.log(this.scrollY);
+                if (keyCode == UP_ARROW && this.scrollY < 0) {
+                    this.scrollY += 30;
                     let newButtonPosition = 60 + this.scrollY;
                     profileButton.style.top = newButtonPosition.toString() + "px";
-                    
-                }
 
+                }
                 break;
         }
     }
-
 
     controlarClick() {
         switch (pantalla) {
@@ -315,7 +303,7 @@ class Logica {
                 break;
             case 3:
                 this.agregarAdiciones();
-                if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
+                if (mouseX > 31 && mouseX < 31 + 40 && mouseY > 81 && mouseY < 81 + 35) {
                     pantalla = 2;
                     pedidoTemp = {};
                     adicionTemp = [];
@@ -324,28 +312,46 @@ class Logica {
                     })
                 }
                 break;
+            case 4:
+                if (mouseX > 31 && mouseX < 31 + 40 && mouseY > 84 && mouseY < 84 + 35) {
+                    pantalla = 3;
+                }
+                break;
             case 7:
                 if (mouseX > 46 && mouseX < 297 && mouseY > 247 && mouseY < 289) {
                     profileButton.style.top = "60px";
                     this.scrollY = 0;
+                    pedidoTemp = {};
+                    adicionTemp = [];
+                    adicionales.forEach(function (element) {
+                        element.setSelected(false);
+                    })
                     pantalla = 2;
                 }
                 if (mouseX > 46 && mouseX < 297 && mouseY > 297 && mouseY < 339) {
                     profileButton.style.top = "60px";
                     this.scrollY = 0;
+                    adicionales.forEach(function (element) {
+                        element.setSelected(false);
+                    })
                     pantalla = 8;
                 }
                 if (mouseX > 46 && mouseX < 297 && mouseY > 348 && mouseY < 390) {
                     profileButton.style.top = "60px";
                     this.scrollY = 0;
+                    pedidoTemp = {};
+                    adicionTemp = [];
+                    adicionales.forEach(function (element) {
+                        element.setSelected(false);
+                    })
                     this.logout();
                 }
                 break;
             case 8:
-                if (mouseX > 37 && mouseX < 200 && mouseY > 255 && mouseY < 297) {
+                if (mouseX > 37 && mouseX < 200 && mouseY > this.scrollY + 255 && mouseY < this.scrollY + 297) {
                     pedidos.sort(this.compararFecha.compare);
                 }
-                if (mouseX > 215 && mouseX < 378 && mouseY > 255 && mouseY < 297) {
+                if (mouseX > 215 && mouseX < 378 && mouseY > this.scrollY + 255 && mouseY < this.scrollY + 297) {
                     pedidos.sort(this.compararPrecio.compare);
                 }
                 break;
@@ -376,7 +382,6 @@ class Logica {
     }
 
     agregarAdiciones() {
-
         for (let i = 0; i < adicionales.length; i++) {
             let adicion = adicionales[i];
             if (mouseX > adicion.getPosX() && mouseX < adicion.getPosX() + adicion.getAncho() && mouseY > adicion.getPosY() && mouseY < adicion.getPosY() + adicion.getAlto()) {
@@ -386,24 +391,20 @@ class Logica {
                         pedidoTemp.precio += 800;
                         adicion.setSelected(true);
                         break;
-
                     case true:
                         adicionTemp.splice(adicionTemp.map(element => { return element.nombre }).indexOf(adicion.nombre), 1);
                         pedidoTemp.precio -= 800;
                         adicion.setSelected(false);
                         break;
                 }
-
             }
-
         }
-
     }
 
     agregarPedido() {
         payMethodButton.forEach(elem => {
             elem.addEventListener("click", () => {
-                let nuevoPedido = new Pedido(usuarioActual.cellPhone, pedidoTemp.plato, adicionTemp, Date.now(), pedidoTemp.precio, "15 min");
+                let nuevoPedido = new Pedido(usuarioActual.cellPhone, {...pedidoTemp}.plato, adicionTemp, Date.now(), {...pedidoTemp}.precio, "15 min");
                 pedidoTemp.tiempo = "15 min";
                 pedidos.push(nuevoPedido);
                 usuarioActual.pedidos = pedidos;
@@ -412,6 +413,9 @@ class Logica {
                 })
                 usuarios[usuarioIndex] = usuarioActual;
                 storage.setItem("listaUsuarios", JSON.stringify(usuarios, getCircularReplacer()));
+                adicionales.forEach(function (element) {
+                    element.setSelected(false);
+                })
             })
         })
     }
@@ -443,7 +447,6 @@ class Logica {
     }
 
     logout() {
-
         usuarioActual = {};
         pedidos = {};
         pantalla = 0;
