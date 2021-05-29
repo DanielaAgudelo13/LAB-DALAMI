@@ -69,6 +69,8 @@ class Logica {
         this.op4 = loadImage("./image/PA-Op4.png");
         this.pantallaMenuDespegable = loadImage("./image/PantallaMenuDesplegable.jpg");
         this.historialdePedidos = loadImage("./image/HistorialdePedidos.jpg");
+        this.pedidoAmarillo = loadImage("./image/PedidoAmarillo.png");
+        this.pedidoAzul = loadImage("./image/PedidoAzul.png");
 
         this.ocultarTodo(loginForm);
         this.cambiarPantalla(registerLogin, 1);
@@ -200,6 +202,7 @@ class Logica {
 
             case 8:
                 image(this.historialdePedidos, 0, 0);
+                this.pintarPedidos();
 
                 break;
 
@@ -253,7 +256,26 @@ class Logica {
             pedidos = usuarioActual.pedidos;
             console.log(pedidos)
         })
+    
     }
+
+    pintarPedidos(){
+        for (let i = 0; i < pedidos.length; i++){
+            let elemento = pedidos[i];
+            if (i%2 == 0){
+                image(this.pedidoAmarillo, 37, 329 + (180*i));
+            }else{
+                image(this.pedidoAzul, 37, 329 + (180*i));
+            }
+            textSize(20);
+            text(elemento.plato.nombre.replace("\n", " "), 63, 374 + (180 * i));
+            text("Date:", 63, 401 + (180 * i));
+            text("Total: $" + elemento.valor, 63, 428 + (180 * i));
+            
+        }
+
+    }
+
 
     controlarClick() {
         switch (pantalla) {
