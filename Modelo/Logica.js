@@ -38,15 +38,15 @@ let adicionTemp = [];
 const getCircularReplacer = () => {
     const seen = new WeakSet();
     return (key, value) => {
-      if (typeof value === "object" && value !== null) {
-        if (seen.has(value)) {
-          return;
+        if (typeof value === "object" && value !== null) {
+            if (seen.has(value)) {
+                return;
+            }
+            seen.add(value);
         }
-        seen.add(value);
-      }
-      return value;
+        return value;
     };
-  };
+};
 
 let usuarioActual;
 
@@ -259,22 +259,22 @@ class Logica {
             pedidos = usuarioActual.pedidos;
             console.log(pedidos)
         })
-    
+
     }
 
-    pintarPedidos(){
-        for (let i = 0; i < pedidos.length; i++){
+    pintarPedidos() {
+        for (let i = 0; i < pedidos.length; i++) {
             let elemento = pedidos[i];
-            if (i%2 == 0){
-                image(this.pedidoAmarillo, 37, 329 + (180*i));
-            }else{
-                image(this.pedidoAzul, 37, 329 + (180*i));
+            if (i % 2 == 0) {
+                image(this.pedidoAmarillo, 37, 329 + (180 * i));
+            } else {
+                image(this.pedidoAzul, 37, 329 + (180 * i));
             }
             textSize(20);
             text(elemento.plato.nombre.replace("\n", " "), 63, 374 + (180 * i));
             text("Date: " + this.fechaFuncional(elemento.fecha), 63, 401 + (180 * i));
             text("Total: $" + elemento.valor, 63, 428 + (180 * i));
-            
+
         }
 
     }
@@ -310,21 +310,21 @@ class Logica {
                 }
 
                 if (mouseX > 46 && mouseX < 297 && mouseY > 348 && mouseY < 390) {
-                    pantalla = 0;
+                    this.logout();
                 }
 
                 break;
 
             case 8:
-                if (mouseX > 37 && mouseX < 200 && mouseY > 255 && mouseY < 297){
+                if (mouseX > 37 && mouseX < 200 && mouseY > 255 && mouseY < 297) {
                     pedidos.sort(this.compararFecha.compare);
                 }
 
-                if (mouseX > 215 && mouseX < 378 && mouseY > 255 && mouseY < 297){
+                if (mouseX > 215 && mouseX < 378 && mouseY > 255 && mouseY < 297) {
                     pedidos.sort(this.compararPrecio.compare);
                 }
 
-            break;
+                break;
 
         }
 
@@ -334,7 +334,7 @@ class Logica {
         let newDate = new Date(timestamp);
         let day = newDate.getDate().toString().length < 2 ? `0${newDate.getDate()}` : newDate.getDate();
         let intMonth = parseInt(newDate.getMonth());
-        let month = intMonth.toString().length < 2 ? `0${intMonth + 1}` :  `${intMonth + 1}`;
+        let month = intMonth.toString().length < 2 ? `0${intMonth + 1}` : `${intMonth + 1}`;
         let year = newDate.getFullYear();
         let formattedDate = `${day}/${month}/${year}`
         return formattedDate;
@@ -385,7 +385,7 @@ class Logica {
                 pedidoTemp.tiempo = "15 min";
                 pedidos.push(nuevoPedido);
                 usuarioActual.pedidos = pedidos;
-                let usuarioIndex = usuarios.findIndex(elem  => {
+                let usuarioIndex = usuarios.findIndex(elem => {
                     return elem.email == usuarioActual.email;
                 })
                 usuarios[usuarioIndex] = usuarioActual;
@@ -419,4 +419,12 @@ class Logica {
             this.mostrarElemento(element);
         });
     }
+
+    logout() {
+
+        usuarioActual = {};
+        pedidos = {};
+        pantalla = 0;
+    }
+
 }
