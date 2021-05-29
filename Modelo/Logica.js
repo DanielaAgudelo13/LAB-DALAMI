@@ -97,6 +97,7 @@ class Logica {
 
     }
 
+    
     pintar() {
         switch (pantalla) {
             case 0:// Login
