@@ -15,3 +15,7 @@ function draw () {
 function mousePressed(){
     control.controlarClick();
 }
+
+function keyPressed(){
+    control.controlarTeclas();
+}

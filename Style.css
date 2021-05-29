@@ -125,7 +125,7 @@ button:hover{
     top: 60px;
     width: 101px;
     height: 101px;
-    opacity: 0;
+    opacity: 0.5;
 }
 
 .payMethodButton {

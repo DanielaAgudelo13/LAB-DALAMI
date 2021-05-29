@@ -28,7 +28,7 @@ let pedidos = [];
 /*if (pedidosGuardados) {
     pedidos = [...JSON.parse(pedidosGuardados)];
 }*/
-console.log(usuariosGuardados);
+
 
 let platos = [];
 let adicionales = [];
@@ -92,6 +92,8 @@ class Logica {
 
         this.compararFecha = new PedidoFechaComparable();
         this.compararPrecio = new PedidoPrecioComparable();
+
+        this.scrollY = 0;
 
     }
 
@@ -200,12 +202,14 @@ class Logica {
 
             case 7:
                 image(this.pantallaMenuDespegable, 0, 0);
+                profileButton.style.top = "60px";
 
                 break;
 
             case 8:
-                image(this.historialdePedidos, 0, 0);
+                image(this.historialdePedidos, 0, this.scrollY);
                 this.pintarPedidos();
+                
 
                 break;
 
@@ -237,7 +241,7 @@ class Logica {
                     pantalla = 2;
                     usuarioActual = usuario;
                     pedidos = usuarioActual.pedidos;
-                    console.log(pedidos)
+                    
                 } else {
                     alert("Contraseña incorrecta");
                 }
@@ -257,26 +261,48 @@ class Logica {
             pantalla = 2;
             usuarioActual = nuevoUsuario;
             pedidos = usuarioActual.pedidos;
-            console.log(pedidos)
+            
         })
 
     }
+
 
     pintarPedidos() {
         for (let i = 0; i < pedidos.length; i++) {
             let elemento = pedidos[i];
             if (i % 2 == 0) {
-                image(this.pedidoAmarillo, 37, 329 + (180 * i));
+                image(this.pedidoAmarillo, 37, 329 + this.scrollY + (180 * i));
             } else {
-                image(this.pedidoAzul, 37, 329 + (180 * i));
+                image(this.pedidoAzul, 37, 329 + this.scrollY + (180 * i));
             }
             textSize(20);
-            text(elemento.plato.nombre.replace("\n", " "), 63, 374 + (180 * i));
-            text("Date: " + this.fechaFuncional(elemento.fecha), 63, 401 + (180 * i));
-            text("Total: $" + elemento.valor, 63, 428 + (180 * i));
-
+            text(elemento.plato.nombre.replace("\n", " "), 63, 374 + this.scrollY + (180 * i));
+            text("Date: " + this.fechaFuncional(elemento.fecha), 63, 401 + this.scrollY + (180 * i));
+            text("Total: $" + elemento.valor, 63, 428 + this.scrollY + (180 * i));
+            
         }
 
+    }
+
+    controlarTeclas(){
+        switch (pantalla){
+            case 8:
+                if (keyCode == DOWN_ARROW){
+                    this.scrollY -= 20;
+                    console.log(this.scrollY);
+                    let newButtonPosition = 60 + this.scrollY;
+                    profileButton.style.top = newButtonPosition.toString() + "px";
+                }
+                if (keyCode == UP_ARROW && this.scrollY < 0){
+                    this.scrollY += 20;
+                    console.log(this.scrollY);
+                    let newButtonPosition = 60 + this.scrollY;
+                    profileButton.style.top = newButtonPosition.toString() + "px";
+                    
+                }
+
+                break;
+        }
     }
 
 
@@ -302,14 +328,21 @@ class Logica {
 
             case 7:
                 if (mouseX > 46 && mouseX < 297 && mouseY > 247 && mouseY < 289) {
+                    profileButton.style.top = "60px";
+                    this.scrollY = 0;
                     pantalla = 2;
+                    
                 }
 
                 if (mouseX > 46 && mouseX < 297 && mouseY > 297 && mouseY < 339) {
+                    profileButton.style.top = "60px";
+                    this.scrollY = 0;
                     pantalla = 8;
                 }
 
                 if (mouseX > 46 && mouseX < 297 && mouseY > 348 && mouseY < 390) {
+                    profileButton.style.top = "60px";
+                    this.scrollY = 0;
                     this.logout();
                 }
 

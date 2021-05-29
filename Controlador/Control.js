@@ -15,6 +15,9 @@ class Control {
        this.logica.controlarClick();
    }
 
+   controlarTeclas(){
+       this.logica.controlarTeclas();
+   }
    
 }
 
