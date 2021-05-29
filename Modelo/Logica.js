@@ -90,6 +90,9 @@ class Logica {
         });
         this.agregarPedido();
 
+        this.compararFecha = new PedidoFechaComparable();
+        this.compararPrecio = new PedidoPrecioComparable();
+
     }
 
     pintar() {
@@ -269,7 +272,7 @@ class Logica {
             }
             textSize(20);
             text(elemento.plato.nombre.replace("\n", " "), 63, 374 + (180 * i));
-            text("Date:", 63, 401 + (180 * i));
+            text("Date: " + this.fechaFuncional(elemento.fecha), 63, 401 + (180 * i));
             text("Total: $" + elemento.valor, 63, 428 + (180 * i));
             
         }
@@ -296,32 +299,6 @@ class Logica {
 
                 break;
 
-            case 4:
-                /*if (mouseX > 31 && mouseX < 31 + 31.95 && mouseY > 81 && mouseY < 81 + 27) {
-                    pantalla = 3;
-                }
-                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 286 && mouseY < 286 + 62) {
-                    this.agregarPedido(pedidoTemp);
-                    pantalla = 5;
-                }
-                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 359 && mouseY < 359 + 62) {
-                    this.agregarPedido(pedidoTemp);
-                    pantalla = 5;
-                }
-                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 432 && mouseY < 432 + 62) {
-                    this.agregarPedido(pedidoTemp);
-                    pantalla = 5;
-                }
-                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 505 && mouseY < 505 + 62) {
-                    this.agregarPedido(pedidoTemp);
-                    pantalla = 5;
-                }
-                if (mouseX > 31 && mouseX < 31 + 341 && mouseY > 583 && mouseY < 583 + 62) {
-                    this.agregarPedido(pedidoTemp);
-                    pantalla = 5;
-                }*/
-
-                break;
 
             case 7:
                 if (mouseX > 46 && mouseX < 297 && mouseY > 247 && mouseY < 289) {
@@ -338,8 +315,29 @@ class Logica {
 
                 break;
 
+            case 8:
+                if (mouseX > 37 && mouseX < 200 && mouseY > 255 && mouseY < 297){
+                    pedidos.sort(this.compararFecha.compare);
+                }
+
+                if (mouseX > 215 && mouseX < 378 && mouseY > 255 && mouseY < 297){
+                    pedidos.sort(this.compararPrecio.compare);
+                }
+
+            break;
+
         }
 
+    }
+
+    fechaFuncional(timestamp) {
+        let newDate = new Date(timestamp);
+        let day = newDate.getDate().toString().length < 2 ? `0${newDate.getDate()}` : newDate.getDate();
+        let intMonth = parseInt(newDate.getMonth());
+        let month = intMonth.toString().length < 2 ? `0${intMonth + 1}` :  `${intMonth + 1}`;
+        let year = newDate.getFullYear();
+        let formattedDate = `${day}/${month}/${year}`
+        return formattedDate;
     }
 
     cargarPlatos() {
